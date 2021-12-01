@@ -11,7 +11,7 @@ class Blog extends Model
 
     protected $table = "tblblog";
 
-    protected $fillable = ["judul","isi","kategori_id","user_id"];
+    protected $fillable = ["judul","isi","kategori_id","user_id","gambar"];
 
     // SELECT TBLBLOG.JUDUL,TBLKATEGORI.ID
     // FROM TBLBLOG
@@ -20,5 +20,15 @@ class Blog extends Model
     public function kategori()
     {
         return $this->belongsTo(Kategori::class, 'kategori_id', 'id');
+    }
+
+    /**
+     * Get all of the komentar for the Blog
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function komentar()
+    {
+        return $this->hasMany(Komentar::class, 'blog_id', 'id');
     }
 }

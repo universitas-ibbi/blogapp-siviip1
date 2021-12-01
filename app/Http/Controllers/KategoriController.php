@@ -38,6 +38,10 @@ class KategoriController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+            "nama" => "required|min:10"
+        ]);
+
         // mass assignment
         Kategori::create($request->except("_token"));
         // INSERT INTO TBLKATEGORI(NAMA) VALUES(NILAI)

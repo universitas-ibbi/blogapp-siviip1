@@ -14,8 +14,15 @@
         @csrf
         <div class="form-group">
             <label for="nama">Nama</label>
-            <input type="text" class="form-control" name="nama"
-                value="{{ isset($kategori)?$kategori->nama:"" }}">
+            <input type="text"
+                class="form-control
+                @error('nama') is-invalid @enderror" name="nama"
+                value="{{ isset($kategori)?$kategori->nama:old("nama") }}">
+            @error('nama')
+                <div class="invalid-feedback">
+                    {{ $message }}
+                </div>
+            @enderror
         </div>
         <div class="form-group float-right">
             <input type="submit" value="Simpan" class="btn btn-success">

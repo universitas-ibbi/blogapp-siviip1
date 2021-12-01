@@ -23,6 +23,7 @@ class CreateBlogsTable extends Migration
             $table->unsignedBigInteger("user_id");
             $table->foreign("user_id")->references("id")
                 ->on("users");
+            $table->string("gambar")->nullable();
             // $table->foriegnId("user");
             $table->timestamps();
         });

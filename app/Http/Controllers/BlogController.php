@@ -41,7 +41,21 @@ class BlogController extends Controller
      */
     public function store(Request $request)
     {
-        Blog::insert($request->except("_token"));
+        $request->validate([
+            "judul" => "required|min:10",
+            "isi" => "required|min:10",
+            "kategori_id" => "required",
+            "user_id" => "required"
+        ]);
+
+        // Blog::insert($request->except("_token"));
+        Blog::create([
+            "judul" => $request->judul,
+            "isi" => $request->isi,
+            "kategori_id" => $request->kategori_id,
+            "gambar" => $request->file("gambar")->store("images"),
+            "user_id" => $request->user_id
+        ]);
 
         return redirect()->route("blog.index");
     }

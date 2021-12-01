@@ -4,7 +4,8 @@
 <div class="container">
     <h1>Form Blog</h1>
     <hr>
-    <form action="{{ isset($blog)?route("blog.update",$blog):route("blog.store") }}" method="post">
+    <form action="{{ isset($blog)?route("blog.update",$blog):route("blog.store") }}"
+        method="post" enctype="multipart/form-data">
         @isset($blog)
             @method("PUT")
         @endisset
@@ -12,13 +13,33 @@
         <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
         <div class="form-group">
             <label for="judul">Judul</label>
-            <input type="text" class="form-control" name="judul"
-                value="{{ isset($blog)?$blog->judul:"" }}">
+            <input type="text" class="form-control
+                @error('judul') is-invalid @enderror" name="judul"
+                value="{{ isset($blog)?$blog->judul:old("judul") }}">
+            @error('judul')
+                <div class="invalid-feedback">
+                    {{ $message }}
+                </div>
+            @enderror
         </div>
         <div class="form-group">
             <label for="isi">Isi</label>
-            <textarea name="isi" class="form-control"
-                id="" cols="30" rows="10">{{ isset($blog)?$blog->isi:"" }}</textarea>
+            <textarea name="isi" class="form-control
+                @error('isi') is-invalid @enderror"
+                id="" cols="30" rows="10">{{ isset($blog)?$blog->isi:old('isi') }}</textarea>
+            @error('isi')
+                <div class="invalid-feedback">
+                    {{ $message }}
+                </div>
+            @enderror
+        </div>
+        <div class="form-group">
+            <label for="gambar">Gambar</label>
+            <input type="file" class="form-control" name="gambar">
+            @if (!empty($blog->gambar))
+                <img src="{{ Storage::url($blog->gambar) }}" alt=""
+                class="my-2">
+            @endif
         </div>
         <div class="form-group">
             <label for="kategori">Kategori</label>
